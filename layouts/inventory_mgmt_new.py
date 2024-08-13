@@ -1,6 +1,6 @@
 from tkinter import *
-from datetime import datetime
 from tkinter import ttk
+from datetime import datetime
 import mysql.connector
 from tkinter import messagebox
 
@@ -17,20 +17,31 @@ DB_CONFIG = {
     'database': 'spare_inventory_db'
 }
 
-
 # Utility Functions
 def create_connection():
     return mysql.connector.connect(**DB_CONFIG)
-
 
 def fetch_data(query, params=None):
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute(query, params or ())
     result = cursor.fetchall()
+    cursor.close()
     connection.close()
     return result
 
+def execute_query(query, params=None):
+    connection = create_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query, params or ())
+        connection.commit()
+    except mysql.connector.Error as err:
+        print(f"Database error: {err}")
+        connection.rollback()
+    finally:
+        cursor.close()
+        connection.close()
 
 def clear_entries(entries, comboboxes=None):
     for entry in entries:
@@ -39,84 +50,59 @@ def clear_entries(entries, comboboxes=None):
         for combobox in comboboxes:
             combobox.set('')
 
-
-def setup_frame(window, title):
-    window.geometry('800x400')
-    window.title(title)
-    window.resizable(False, False)
-    frame = Frame(window, width=800, height=600, bg=BG_COLOR, bd=8)
-    frame.place(x=0, y=0)
+def setup_frame(parent, title):
+    frame = Frame(parent, width=800, height=600, bg=BG_COLOR, bd=8)
+    frame.pack(fill=BOTH, expand=True)
     return frame
-
 
 def setup_label(frame, text, x, y, font_size=FONT_SIZE):
     label = Label(frame, text=text, fg=FG_COLOR, bg=BG_COLOR, font=(PRIMARY_FONT, font_size, 'bold'))
     label.place(x=x, y=y)
     return label
 
-
 def setup_combobox(frame, values, x, y):
     var = StringVar()
     combobox = ttk.Combobox(frame, textvariable=var, width=47, values=values)
     combobox.place(x=x, y=y)
-
-    # def on_select(event):
-    #     print("Combobox value selected:", var.get())
-    #
-    # combobox.bind("<<ComboboxSelected>>", on_select)
     return combobox, var
-
 
 def setup_entry(frame, x, y):
     entry = Entry(frame, width=50, borderwidth=2)
     entry.place(x=x, y=y)
     return entry
 
-
 def setup_button(frame, text, x, y, command):
     button = Button(frame, text=text, bg=BTN_COLOR, width=23, font=(PRIMARY_FONT, FONT_SIZE, 'normal'), command=command)
     button.place(x=x, y=y)
     return button
 
-
 # Main Application
-def create_home_window():
-    homeWindow = Tk()
-    frame = setup_frame(homeWindow, 'Spare Inventory Management System')
+def create_main_window():
+    main_window = Tk()
+    main_window.geometry('800x600')
+    main_window.title('Spare Inventory Management System')
+    main_window.resizable(False, False)
 
-    img = PhotoImage(file="logo.png")
-    logo_label = Label(frame, image=img)
-    logo_label.image = img
-    logo_label.place(x=15, y=20)
+    notebook = ttk.Notebook(main_window)
 
-    setup_label(frame, "Spare Inventory Management System", 120, 50, 24)
-
-    setup_button(frame, "Spare Entry", 120, 150, open_spare_entry)
-    setup_button(frame, "Spare Inward Entry", 400, 150, open_spare_inward)
-    setup_button(frame, "Spare Consumption Entry", 120, 200, open_spare_consumption)
-    setup_button(frame, "Stock Verification", 400, 200, open_stock_verification)
-
-    homeWindow.mainloop()
-
-
-# Spare Entry Window
-def create_spare_entry_window():
-    spareMasterWindow = Toplevel()
-    frame = setup_frame(spareMasterWindow, 'Spare Entry')
-    setup_label(frame, "Spare Entry", 250, 10, 24)
+    # Spare Entry Tab
+    spare_entry_frame = setup_frame(notebook, 'Spare Entry')
+    notebook.add(spare_entry_frame, text='Spare Entry')
+    setup_label(spare_entry_frame, "Spare Entry", 250, 10, 24)
     labels = ['Spare Name:', 'Specification:', 'Location:', 'UOM:', 'Re-Order Level:']
     entries = []
     locations = [f"R{rack}-Bin{bin}" for rack in range(1, 6) for bin in range(1, 11)]
 
     for i, label in enumerate(labels):
-        setup_label(frame, label, 10, 70 + 40 * i)
+        setup_label(spare_entry_frame, label, 10, 70 + 40 * i)
         if i in [0, 1, 4]:
-            entries.append(setup_entry(frame, 200, 75 + 40 * i))
+            entries.append(setup_entry(spare_entry_frame, 200, 75 + 40 * i))
+        elif i == 2:
+            location_combobox, location_var = setup_combobox(spare_entry_frame, locations, 200, 155)
+        elif i == 3:
+            uom_combobox, uom_var = setup_combobox(spare_entry_frame, ['Piece', 'Box', 'Kg', 'Litre'], 200, 195)
 
-    location_combobox, location_var = setup_combobox(frame, locations, 200, 155)
-    uom_combobox, uom_var = setup_combobox(frame, ['Piece', 'Box', 'Kg', 'Litre'], 200, 195)
-
-    def submit():
+    def submit_spare_entry():
         spare_name = entries[0].get()
         specification = entries[1].get()
         location = location_var.get()
@@ -133,36 +119,35 @@ def create_spare_entry_window():
             messagebox.showerror("Error", "Re-Order Level must be an integer")
             return
 
-        query = "INSERT INTO spare_master (item_name, specification, location, uom, reorder_level) VALUES (%s, %s, %s, %s, %s)"
-        fetch_data(query, (spare_name, specification, location, uom, reorder_level))
+        query = """
+        INSERT INTO spare_master (item_name, specification, location, uom, reorder_level)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        execute_query(query, (spare_name, specification, location, uom, reorder_level))
         messagebox.showinfo("Success", "Item added successfully")
         clear_entries(entries, [location_combobox, uom_combobox])
 
-    setup_button(frame, 'Submit', 30, 315, submit)
-    setup_button(frame, 'Cancel', 310, 315, spareMasterWindow.destroy)
+    setup_button(spare_entry_frame, 'Submit', 30, 315, submit_spare_entry)
+    setup_button(spare_entry_frame, 'Cancel', 310, 315, lambda: main_window.quit())
 
-    spareMasterWindow.mainloop()
-
-
-# Spare Inward Window
-def create_spare_inward_window():
-    spareInwardWindow = Toplevel()
-    frame = setup_frame(spareInwardWindow, 'Spare Inward Entry')
-    setup_label(frame, "Spare Inward", 250, 10, 24)
+    # Spare Inward Tab
+    spare_inward_frame = setup_frame(notebook, 'Spare Inward Entry')
+    notebook.add(spare_inward_frame, text='Spare Inward Entry')
+    setup_label(spare_inward_frame, "Spare Inward", 250, 10, 24)
     spare_names = fetch_data("SELECT spare_id, item_name, specification FROM spare_master")
-    spare_name_combobox, spare_name_var = setup_combobox(frame, [f"{name} {spec}" for _, name, spec in spare_names],
+    spare_name_combobox, spare_name_var = setup_combobox(spare_inward_frame, [f"{name} {spec}" for _, name, spec in spare_names],
                                                          250, 75)
-    setup_label(frame, 'Spare Name:', 60, 70)
-    setup_label(frame, 'Quantity:', 60, 110)
-    quantity_entry = setup_entry(frame, 250, 115)
+    setup_label(spare_inward_frame, 'Spare Name:', 60, 70)
+    setup_label(spare_inward_frame, 'Quantity:', 60, 110)
+    quantity_entry = setup_entry(spare_inward_frame, 250, 115)
 
-    setup_label(frame, 'Date:', 60, 150)
+    setup_label(spare_inward_frame, 'Date:', 60, 150)
     date_var = StringVar()
-    date_entry = Entry(frame, textvariable=date_var, width=50, borderwidth=2)
+    date_entry = Entry(spare_inward_frame, textvariable=date_var, width=50, borderwidth=2)
     date_var.set(datetime.now().strftime('%Y-%m-%d'))
     date_entry.place(x=250, y=155)
 
-    def submit():
+    def submit_spare_inward():
         spare_name = spare_name_var.get()
         quantity = quantity_entry.get()
         date = date_var.get()
@@ -183,35 +168,31 @@ def create_spare_inward_window():
             return
 
         query = "INSERT INTO spare_inward (spare_id, quantity, date) VALUES (%s, %s, %s)"
-        fetch_data(query, (spare_id, quantity, date))
+        execute_query(query, (spare_id, quantity, date))
         messagebox.showinfo("Success", "Spare inward entry added successfully")
         clear_entries([quantity_entry, date_entry], [spare_name_combobox])
 
-    setup_button(frame, 'Submit', 30, 200, submit)
-    setup_button(frame, 'Cancel', 310, 200, spareInwardWindow.destroy)
+    setup_button(spare_inward_frame, 'Submit', 30, 200, submit_spare_inward)
+    setup_button(spare_inward_frame, 'Cancel', 310, 200, lambda: main_window.quit())
 
-    spareInwardWindow.mainloop()
-
-
-# Spare Consumption Window
-def create_spare_consumption_window():
-    spareConsumptionWindow = Toplevel()
-    frame = setup_frame(spareConsumptionWindow, 'Spare Consumption Entry')
-    setup_label(frame, "Spare Consumption", 250, 10, 24)
+    # Spare Consumption Tab
+    spare_consumption_frame = setup_frame(notebook, 'Spare Consumption Entry')
+    notebook.add(spare_consumption_frame, text='Spare Consumption Entry')
+    setup_label(spare_consumption_frame, "Spare Consumption", 250, 10, 24)
     spare_names = fetch_data("SELECT spare_id, item_name, specification FROM spare_master")
-    spare_name_combobox, spare_name_var = setup_combobox(frame, [f"{name} {spec}" for _, name, spec in spare_names],
+    spare_name_combobox, spare_name_var = setup_combobox(spare_consumption_frame, [f"{name} {spec}" for _, name, spec in spare_names],
                                                          270, 75)
-    setup_label(frame, 'Spare Name:', 60, 70)
-    setup_label(frame, 'Quantity Consumed:', 60, 110)
-    quantity_entry = setup_entry(frame, 270, 115)
+    setup_label(spare_consumption_frame, 'Spare Name:', 60, 70)
+    setup_label(spare_consumption_frame, 'Quantity Consumed:', 60, 110)
+    quantity_entry = setup_entry(spare_consumption_frame, 270, 115)
 
-    setup_label(frame, 'Date:', 60, 150)
+    setup_label(spare_consumption_frame, 'Date:', 60, 150)
     date_var = StringVar()
-    date_entry = Entry(frame, textvariable=date_var, width=50, borderwidth=2)
+    date_entry = Entry(spare_consumption_frame, textvariable=date_var, width=50, borderwidth=2)
     date_var.set(datetime.now().strftime('%Y-%m-%d'))
     date_entry.place(x=270, y=155)
 
-    def submit():
+    def submit_spare_consumption():
         spare_name = spare_name_var.get()
         quantity = quantity_entry.get()
         date = date_var.get()
@@ -231,53 +212,27 @@ def create_spare_consumption_window():
             messagebox.showerror("Error", "Invalid Spare Name")
             return
 
-        query = "SELECT spare_stock.current_stock, spare_master.reorder_level FROM spare_stock JOIN spare_master ON spare_stock.spare_id = spare_master.spare_id WHERE spare_stock.spare_id = %s"
-        stock_data = fetch_data(query, (spare_id,))
+        query = "INSERT INTO spare_consumption (spare_id, quantity, date) VALUES (%s, %s, %s)"
+        execute_query(query, (spare_id, quantity, date))
+        messagebox.showinfo("Success", "Spare consumption entry added successfully")
+        clear_entries([quantity_entry, date_entry], [spare_name_combobox])
 
-        if stock_data:
-            current_stock, reorder_level = stock_data[0]
-            if current_stock < quantity:
-                messagebox.showerror("Error", f"Insufficient stock. Available: {current_stock}")
-                return
+    setup_button(spare_consumption_frame, 'Submit', 30, 200, submit_spare_consumption)
+    setup_button(spare_consumption_frame, 'Cancel', 310, 200, lambda: main_window.quit())
 
-            query = "INSERT INTO spare_consumption (spare_id, quantity_consumed, date) VALUES (%s, %s, %s)"
-            fetch_data(query, (spare_id, quantity, date))
-
-            new_stock = current_stock - quantity
-            query = "UPDATE spare_stock SET current_stock = %s WHERE spare_id = %s"
-            fetch_data(query, (new_stock, spare_id))
-
-            if new_stock < reorder_level:
-                messagebox.showwarning("Warning", f"Stock below reorder level: {reorder_level}")
-
-            messagebox.showinfo("Success", "Spare consumption entry added successfully")
-            clear_entries([quantity_entry, date_entry], [spare_name_combobox])
-        else:
-            messagebox.showerror("Error", "Spare not found in stock")
-
-    setup_button(frame, 'Submit', 30, 200, submit)
-    setup_button(frame, 'Cancel', 310, 200, spareConsumptionWindow.destroy)
-
-    spareConsumptionWindow.mainloop()
-
-
-# Stock Verification Window
-def create_stock_verification_window():
-    stockVerificationWindow = Toplevel()
-    frame = setup_frame(stockVerificationWindow, 'Stock Verification')
-
-    setup_label(frame, 'Spare Stock Verification', 220, 10, 24)
-    setup_label(frame, 'Spare Name:', 80, 100)
-
+    # Stock Verification Tab
+    stock_verification_frame = setup_frame(notebook, 'Stock Verification')
+    notebook.add(stock_verification_frame, text='Stock Verification')
+    setup_label(stock_verification_frame, "Stock Verification", 250, 10, 24)
     spare_names = fetch_data("SELECT spare_id, item_name, specification FROM spare_master")
-    spare_name_combobox, spare_name_var = setup_combobox(frame, [f"{name} {spec}" for _, name, spec in spare_names],
-                                                         250, 105)
+    spare_name_combobox, spare_name_var = setup_combobox(stock_verification_frame, [f"{name} {spec}" for _, name, spec in spare_names],
+                                                         270, 75)
+    setup_label(stock_verification_frame, 'Spare Name:', 60, 70)
 
-    def display_stock_details():
+    def verify_stock():
         spare_name = spare_name_var.get()
-
         if not spare_name:
-            messagebox.showerror("Error", "Please select a spare name")
+            messagebox.showerror("Error", "Please select a Spare Name")
             return
 
         spare_id = next((id for id, name, spec in spare_names if f"{name} {spec}" == spare_name), None)
@@ -285,41 +240,41 @@ def create_stock_verification_window():
             messagebox.showerror("Error", "Invalid Spare Name")
             return
 
-        query = "SELECT spare_stock.current_stock, spare_master.reorder_level, spare_master.location FROM spare_stock JOIN spare_master ON spare_stock.spare_id = spare_master.spare_id WHERE spare_stock.spare_id = %s"
-        stock_data = fetch_data(query, (spare_id,))
-
-        if stock_data:
-            current_stock, reorder_level, location = stock_data[0]
-            setup_label(frame, f"Spare Name: {spare_name}", 250, 250)
-            setup_label(frame, f"Current Stock: {current_stock}", 250, 280)
-            setup_label(frame, f"Re-Order Level: {reorder_level}", 250, 310)
-            setup_label(frame, f'Location: {location}', 250, 340)
+        query = """
+        SELECT
+            sm.item_name,
+            sm.specification,
+            COALESCE(si.total_quantity, 0) AS inward_quantity,
+            COALESCE(sc.total_quantity, 0) AS consumed_quantity,
+            COALESCE(si.total_quantity, 0) - COALESCE(sc.total_quantity, 0) AS available_quantity
+        FROM
+            spare_master sm
+            LEFT JOIN (
+                SELECT spare_id, SUM(quantity) AS total_quantity
+                FROM spare_inward
+                GROUP BY spare_id
+            ) si ON sm.spare_id = si.spare_id
+            LEFT JOIN (
+                SELECT spare_id, SUM(quantity) AS total_quantity
+                FROM spare_consumption
+                GROUP BY spare_id
+            ) sc ON sm.spare_id = sc.spare_id
+        WHERE
+            sm.spare_id = %s
+        """
+        result = fetch_data(query, (spare_id,))
+        if not result:
+            messagebox.showinfo("Info", "No data found for the selected Spare Name")
         else:
-            messagebox.showerror("Error", "No stock details found for selected spare")
+            item_name, specification, inward_qty, consumed_qty, available_qty = result[0]
+            messagebox.showinfo("Stock Details", f"Item Name: {item_name}\nSpecification: {specification}\n"
+                                                  f"Inward Quantity: {inward_qty}\nConsumed Quantity: {consumed_qty}\n"
+                                                  f"Available Quantity: {available_qty}")
 
-    setup_button(frame, 'Verify', 30, 200, display_stock_details)
-    setup_button(frame, 'Cancel', 310, 200, stockVerificationWindow.destroy)
+    setup_button(stock_verification_frame, 'Verify Stock', 30, 200, verify_stock)
+    setup_button(stock_verification_frame, 'Cancel', 310, 200, lambda: main_window.quit())
 
-    stockVerificationWindow.mainloop()
+    notebook.pack(fill=BOTH, expand=True)
+    main_window.mainloop()
 
-
-# Callback Functions to Open Different Windows
-def open_spare_entry():
-    create_spare_entry_window()
-
-
-def open_spare_inward():
-    create_spare_inward_window()
-
-
-def open_spare_consumption():
-    create_spare_consumption_window()
-
-
-def open_stock_verification():
-    create_stock_verification_window()
-
-
-# Main Entry Point
-if __name__ == "__main__":
-    create_home_window()
+create_main_window()

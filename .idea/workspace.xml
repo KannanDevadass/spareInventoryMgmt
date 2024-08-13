@@ -4,22 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/pythonProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/homeWindow.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/inventory_mgmt.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/spareConsumption.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/spareEntry.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/spareInward.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/layouts/stockVerification.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sampleCode/SampleFile.py" afterDir="false" />
+    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/inventory_mgmt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +80,15 @@
       <option name="presentableId" value="Default" />
       <updated>1722404956557</updated>
     </task>
+    <task id="LOCAL-00001" summary="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.">
+      <option name="closed" value="true" />
+      <created>1723529493958</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723529493958</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,5 +101,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files." />
+    <option name="LAST_COMMIT_MESSAGE" value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files." />
   </component>
 </project>

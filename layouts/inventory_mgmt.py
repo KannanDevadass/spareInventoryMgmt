@@ -28,9 +28,22 @@ def fetch_data(query, param=None):
     cursor = connection.cursor()
     cursor.execute(query, param or ())
     result = cursor.fetchall()
+    cursor.close()
     connection.close()
     return result
 
+def execute_query(query, params=None):
+    connection = create_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query, params or ())
+        connection.commit()  # Commit changes to the database
+    except mysql.connector.Error as err:
+        print(f"Database error: {err}")
+        connection.rollback()  # Rollback in case of error
+    finally:
+        cursor.close()
+        connection.close()
 
 def clear_entries(entries, comboboxes=None):
     for entry in entries:
@@ -59,13 +72,13 @@ def setup_combobox(frame, values, x, y):
     combobox = ttk.Combobox(frame, textvariable=var, width=47)
     combobox['values'] = values
     combobox.place(x=x, y=y)
-    combobox.current(0)  # Set the default selection
+    # combobox.current(0)  # Set the default selection
 
-    def on_select(event):
-        print("Combobox value selected:", var.get())
-
-    combobox.bind("<<ComboboxSelected>>", on_select)
-    return combobox, var
+    # def on_select(event):
+    #     print("Combobox value selected:", var.get())
+    #
+    # combobox.bind("<<ComboboxSelected>>", on_select)
+    # return combobox, var
 
 
 def setup_entry(frame, x, y):
@@ -147,12 +160,17 @@ def create_spare_entry_window():
             return
 
         # Database operation
-        query = ("INSERT INTO spare_master (item_name, specification, location, uom, reorder_level) VALUES (%s, %s, %s, %s, %s)")
-        fetch_data(query, (spare_name, specification, location, uom, reorder_level))
+        try:
+            query = (
+                "INSERT INTO spare_master (item_name, specification, location, uom, reorder_level) VALUES (%s, %s, %s, %s, %s)")
+            execute_query(query, (spare_name, specification, location, uom, reorder_level))
 
-        # Success message and clear entries
-        messagebox.showinfo("Success", "Item added successfully")
-        clear_entries(entries, [location_combobox, uom_combobox])
+            # Success message and clear entries
+            messagebox.showinfo("Success", "Item added successfully")
+            clear_entries(entries, [location_combobox, uom_combobox])
+        except mysql.connector.Error as err:
+            messagebox.showerror("Error", f"Database error: {err}")
+
 
     # Buttons
     setup_button(frame, 'Submit', 40, 315, submit)
@@ -202,7 +220,7 @@ def create_spare_inward_window():
             return
 
         query = "INSERT INTO spare_inward (spare_id, quantity, date) VALUES (%s, %s, %s)"
-        fetch_data(query, (spare_id, quantity, date))
+        execute_query(query, (spare_id, quantity, date))
         messagebox.showinfo("Success", "Spare inward entry added successfully")
         clear_entries([quantity_entry, date_entry], [spare_name_combobox])
 
@@ -261,8 +279,8 @@ def create_spare_consumption_window():
                 messagebox.showerror("Error", f"Insufficient stock. Available: {current_stock}")
                 return
 
-            query = "INSERT INTO spare_consumption (spare_id, quantity_consumed, date) VALUES (%s, %s, %s)"
-            fetch_data(query, (spare_id, quantity, date))
+            query = "INSERT INTO spare_consumption (spare_id, quantity, date) VALUES (%s, %s, %s)"
+            execute_query(query, (spare_id, quantity, date))
 
             new_stock = current_stock - quantity
             query = "UPDATE spare_stock SET current_stock = %s WHERE spare_id = %s"
