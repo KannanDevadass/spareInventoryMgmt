@@ -78,7 +78,7 @@ def setup_combobox(frame, values, x, y):
     #     print("Combobox value selected:", var.get())
     #
     # combobox.bind("<<ComboboxSelected>>", on_select)
-    # return combobox, var
+    return combobox, var
 
 
 def setup_entry(frame, x, y):
@@ -105,7 +105,7 @@ def create_home_window():
 
     setup_label(frame, "Spare Inventory Management System", 120, 50, 24)
 
-    setup_button(frame, "Spare Entry", 120, 150, open_spare_entry)
+    setup_button(frame, "Spare Master Entry", 120, 150, open_spare_entry)
     setup_button(frame, "Spare Inward Entry", 400, 150, open_spare_inward)
     setup_button(frame, "Spare Consumption Entry", 120, 200, open_spare_consumption)
     setup_button(frame, "Stock Verification", 400, 200, open_stock_verification)
@@ -117,7 +117,7 @@ def create_home_window():
 def create_spare_entry_window():
     spareMasterWindow = Toplevel()
     frame = setup_frame(spareMasterWindow, 'Spare Entry')
-    setup_label(frame, "Spare Entry", 250, 10, 24)
+    setup_label(frame, "Spare Master Entry", 250, 10, 24)
 
 
     # Labels and entries for Spare Entry Form
@@ -145,7 +145,7 @@ def create_spare_entry_window():
         uom = uom_var.get()
         reorder_level = entries[2].get()
 
-        print(spare_name, specification, location, uom, reorder_level)
+        # print(spare_name, specification, location, uom, reorder_level)
 
         # Ensure all fields are filled
         if not all([spare_name, specification, location, uom, reorder_level]):
