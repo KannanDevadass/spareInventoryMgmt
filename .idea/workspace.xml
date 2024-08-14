@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.">
+    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/inventory_mgmt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_final/inventory_mgmt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,32 +34,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.SampleFile.executor": "Run",
-    "Python.homeWindow.executor": "Run",
-    "Python.inventory_mgmt.executor": "Run",
-    "Python.inventory_mgmt_new.executor": "Run",
-    "Python.loginPage.executor": "Run",
-    "Python.registrationPage.executor": "Run",
-    "Python.spareConsumption.executor": "Run",
-    "Python.spareEntry.executor": "Run",
-    "Python.spareInward.executor": "Run",
-    "Python.spareMaster.executor": "Run",
-    "Python.stockVerification.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Besant technologies/02 PYTHON_BESANT/05 Project/pythonProject/layouts",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.SampleFile.executor&quot;: &quot;Run&quot;,
+    &quot;Python.homeWindow.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inventory_mgmt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inventory_mgmt_new.executor&quot;: &quot;Run&quot;,
+    &quot;Python.loginPage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.registrationPage.executor&quot;: &quot;Run&quot;,
+    &quot;Python.spareConsumption.executor&quot;: &quot;Run&quot;,
+    &quot;Python.spareEntry.executor&quot;: &quot;Run&quot;,
+    &quot;Python.spareInward.executor&quot;: &quot;Run&quot;,
+    &quot;Python.spareMaster.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stockVerification.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Besant technologies/02 PYTHON_BESANT/05 Project/pythonProject/layouts&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Besant technologies\02 PYTHON_BESANT\05 Project\pythonProject\layouts" />
       <recent name="D:\Besant technologies\02 PYTHON_BESANT\05 Project\pythonProject\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Besant technologies\02 PYTHON_BESANT\05 Project\pythonProject\project_final" />
       <recent name="D:\Besant technologies\02 PYTHON_BESANT\05 Project\pythonProject\layouts" />
       <recent name="D:\Besant technologies\02 PYTHON_BESANT\05 Project\pythonProject\resources" />
     </key>
@@ -88,7 +89,23 @@
       <option name="project" value="LOCAL" />
       <updated>1723529493958</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;">
+      <option name="closed" value="true" />
+      <created>1723532503479</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723532503479</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py">
+      <option name="closed" value="true" />
+      <created>1723612987770</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1723612987770</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,6 +121,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files." />
-    <option name="LAST_COMMIT_MESSAGE" value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files." />
+    <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;" />
+    <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
   </component>
 </project>

@@ -98,7 +98,7 @@ def create_home_window():
     homeWindow = Tk()
     frame = setup_frame(homeWindow, 'Spare Inventory Management System')
 
-    img = PhotoImage(file="logo.png")
+    img = PhotoImage(file="../layouts/logo.png")
     logo_label = Label(frame, image=img)
     logo_label.image = img
     logo_label.place(x=15, y=20)

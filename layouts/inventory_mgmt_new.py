@@ -50,6 +50,12 @@ def clear_entries(entries, comboboxes=None):
         for combobox in comboboxes:
             combobox.set('')
 
+def refresh_spare_names(combobox, var):
+    spare_names = fetch_data("SELECT spare_id, item_name, specification FROM spare_master")
+    spare_name_list = [f"{name} {spec}" for _, name, spec in spare_names]
+    combobox['values'] = spare_name_list
+    var.set('')
+
 def setup_frame(parent, title):
     frame = Frame(parent, width=800, height=600, bg=BG_COLOR, bd=8)
     frame.pack(fill=BOTH, expand=True)
@@ -175,6 +181,13 @@ def create_main_window():
     setup_button(spare_inward_frame, 'Submit', 30, 200, submit_spare_inward)
     setup_button(spare_inward_frame, 'Cancel', 310, 200, lambda: main_window.quit())
 
+    def on_tab_change(event):
+        selected_tab = event.widget.tab(event.widget.select(), "text")
+        if selected_tab == 'Spare Inward Entry':
+            refresh_spare_names(spare_name_combobox, spare_name_var)
+
+    notebook.bind("<<NotebookTabChanged>>", on_tab_change)
+
     # Spare Consumption Tab
     spare_consumption_frame = setup_frame(notebook, 'Spare Consumption Entry')
     notebook.add(spare_consumption_frame, text='Spare Consumption Entry')
@@ -191,6 +204,13 @@ def create_main_window():
     date_entry = Entry(spare_consumption_frame, textvariable=date_var, width=50, borderwidth=2)
     date_var.set(datetime.now().strftime('%Y-%m-%d'))
     date_entry.place(x=270, y=155)
+
+    def on_tab_change(event):
+        selected_tab = event.widget.tab(event.widget.select(), "text")
+        if selected_tab == 'Spare Inward Entry':
+            refresh_spare_names(spare_name_combobox, spare_name_var)
+
+    notebook.bind("<<NotebookTabChanged>>", on_tab_change)
 
     def submit_spare_consumption():
         spare_name = spare_name_var.get()
@@ -228,6 +248,13 @@ def create_main_window():
     spare_name_combobox, spare_name_var = setup_combobox(stock_verification_frame, [f"{name} {spec}" for _, name, spec in spare_names],
                                                          270, 75)
     setup_label(stock_verification_frame, 'Spare Name:', 60, 70)
+
+    def on_tab_change(event):
+        selected_tab = event.widget.tab(event.widget.select(), "text")
+        if selected_tab == 'Spare Inward Entry':
+            refresh_spare_names(spare_name_combobox, spare_name_var)
+
+    notebook.bind("<<NotebookTabChanged>>", on_tab_change)
 
     def verify_stock():
         spare_name = spare_name_var.get()
@@ -273,6 +300,14 @@ def create_main_window():
 
     setup_button(stock_verification_frame, 'Verify Stock', 30, 200, verify_stock)
     setup_button(stock_verification_frame, 'Cancel', 310, 200, lambda: main_window.quit())
+
+    def on_tab_change(event):
+        selected_tab = event.widget.tab(event.widget.select(), "text")
+        if selected_tab == 'Spare Inward Entry':
+            refresh_spare_names(spare_name_combobox, spare_name_var)
+
+    notebook.bind("<<NotebookTabChanged>>", on_tab_change)
+
 
     notebook.pack(fill=BOTH, expand=True)
     main_window.mainloop()
