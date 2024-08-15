@@ -170,7 +170,7 @@ def create_spare_entry_window():
             clear_entries(entries, [location_combobox, uom_combobox])
         except mysql.connector.Error as err:
             messagebox.showerror("Error", f"Database error: {err}")
-
+        spareMasterWindow.destroy()
 
     # Buttons
     setup_button(frame, 'Submit', 40, 315, submit)
@@ -222,7 +222,8 @@ def create_spare_inward_window():
         query = "INSERT INTO spare_inward (spare_id, quantity, date) VALUES (%s, %s, %s)"
         execute_query(query, (spare_id, quantity, date))
         messagebox.showinfo("Success", "Spare inward entry added successfully")
-        clear_entries([quantity_entry, date_entry], [spare_name_combobox])
+        clear_entries([quantity_entry], [spare_name_combobox])
+        spareInwardWindow.destroy()
 
     setup_button(frame, 'Submit', 30, 200, submit)
     setup_button(frame, 'Cancel', 310, 200, spareInwardWindow.destroy)
@@ -290,9 +291,10 @@ def create_spare_consumption_window():
                 messagebox.showwarning("Warning", f"Stock below reorder level: {reorder_level}")
 
             messagebox.showinfo("Success", "Spare consumption entry added successfully")
-            clear_entries([quantity_entry, date_entry], [spare_name_combobox])
+            clear_entries([quantity_entry], [spare_name_combobox])
         else:
             messagebox.showerror("Error", "Spare not found in stock")
+        spareConsumptionWindow.destroy()
 
     setup_button(frame, 'Submit', 30, 200, submit)
     setup_button(frame, 'Cancel', 310, 200, spareConsumptionWindow.destroy)
