@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py">
+    <list default="true" id="f46901f0-f973-4859-bef5-149e205944bb" name="Changes" comment="moved file to new location">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_final/inventory_mgmt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/layouts/inventory_mgmt_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723612987770</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py">
+      <option name="closed" value="true" />
+      <created>1723638104956</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1723638104956</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,6 +129,7 @@
     <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files." />
     <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;" />
     <MESSAGE value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="First level..&#10;Separate files &lt;spareEntry.py, spareInward.py, spareConsumption.py, stockVerification.py&gt; called by &lt;homeWindow.py&gt;&#10;inventory_mgmt.py and inventory_mgmt_new.py are compiled project files.&#10;Revision:2&#10;Database issue in the inventory_mgmt.py was corrected.&#10;Tried to combine all the windows in the same window using tabs. Working but database not writing &lt;inventory_mgmt_new.py&gt;&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
+    <MESSAGE value="&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="&#10;revision 3:&#10;small bug fixings in inventory_mgmt.py" />
   </component>
 </project>
